@@ -1,6 +1,6 @@
 {
 	"name": "@sysid/mmdlint",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"type": "module",
 	"description": "Validate Mermaid diagram syntax in Markdown, headless (no browser), via Mermaid's own parser.",
 	"keywords": [
