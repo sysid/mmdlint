@@ -1,5 +1,7 @@
 # mmdlint
 
+[![CI](https://github.com/sysid/mmdlint/actions/workflows/ci.yml/badge.svg)](https://github.com/sysid/mmdlint/actions/workflows/ci.yml)
+
 Validate [Mermaid](https://mermaid.js.org/) diagram syntax inside Markdown — **headless, no browser**.
 
 `mermaid-cli` (`mmdc`) only validates by *rendering*, which launches Chromium and fails in headless or

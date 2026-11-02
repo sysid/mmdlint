@@ -37,6 +37,9 @@ make clean      # rm -rf dist
 make check     # lint + typecheck + test (biome, tsc --noEmit, vitest)
 ```
 
+CI (`.github/workflows/ci.yml`) runs `make all` on Node 20, 22 and 24 for every push to `main` and every PR; make
+sure it is green before bumping.
+
 ## Bump
 
 Version lives in `VERSION` and `package.json`, kept in sync by `.bumpversion.toml`. Pick the SemVer level:
