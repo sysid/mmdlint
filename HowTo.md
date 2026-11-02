@@ -64,6 +64,17 @@ make publish   # runs `check`, verifies npm login, then `npm publish --access pu
 
 `publish` does **not** bump — release order is: `make check` → `make bump-<level>` → `make publish`.
 
+Or publish from GitHub Actions (`.github/workflows/publish.yml`), manual trigger only, via npm trusted publishing
+(OIDC, no `NPM_TOKEN`; adds provenance). After `make bump-<level>` has pushed the tag:
+
+```bash
+gh workflow run publish.yml --ref v$(cat VERSION)
+```
+
+The workflow refuses to run unless the ref is the tag `v<VERSION>` and `VERSION` matches `package.json`, then runs
+`make all` and `npm publish --access public`. One-time setup on npmjs.com → `@sysid/mmdlint` → Settings →
+Trusted Publisher: GitHub Actions, owner `sysid`, repository `mmdlint`, workflow `publish.yml`.
+
 ## One-shot release
 
 ```bash
