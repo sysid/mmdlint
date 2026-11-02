@@ -43,6 +43,9 @@ BUILD:  ## ############################################################
 build:  ## compile TypeScript to dist/
 	npx tsc
 
+.PHONY: all
+all: check build  ## run all checks, then build
+
 .PHONY: clean
 clean:  ## remove build output
 	rm -rf dist

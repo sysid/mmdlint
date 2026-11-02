@@ -60,6 +60,7 @@ const results = await validateMarkdown(markdownString);
 make install   # npm install
 make check     # biome lint + tsc typecheck + vitest
 make build     # tsc -> dist/
+make all       # check + build
 make help      # all targets
 ```
 
