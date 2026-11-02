@@ -9,11 +9,16 @@ export interface MermaidBlock {
 	code: string;
 }
 
-export interface BlockResult extends MermaidBlock {
+export interface DiagramResult {
 	ok: boolean;
-	/** Mermaid parser error message when ok is false. */
+	/**
+	 * Mermaid's parser message, verbatim, when ok is false. Its "line N" counts lines of Mermaid's preprocessed
+	 * diagram (frontmatter, %%{directives}%%, %% comments and some blank lines removed), not lines of the input.
+	 */
 	error?: string;
 }
+
+export type BlockResult = MermaidBlock & DiagramResult;
 
 // Fenced ```mermaid blocks. `m` flag so ^/$ match line boundaries for the closing fence.
 const MERMAID_FENCE = /^[ \t]*```[ \t]*mermaid[ \t]*\r?\n([\s\S]*?)^[ \t]*```[ \t]*$/gm;
@@ -58,8 +63,8 @@ async function loadMermaid(): Promise<MermaidApi> {
 	return mermaidLoad;
 }
 
-/** Validate a single diagram body. Returns ok=false with the parser message on a syntax error. */
-export async function validateMermaid(code: string): Promise<{ ok: boolean; error?: string }> {
+/** Validate a single diagram body. Returns ok=false with Mermaid's full parser message on a syntax error. */
+export async function validateMermaid(code: string): Promise<DiagramResult> {
 	const mermaid = await loadMermaid();
 	try {
 		await mermaid.parse(code);
@@ -73,8 +78,7 @@ export async function validateMermaid(code: string): Promise<{ ok: boolean; erro
 export async function validateMarkdown(markdown: string): Promise<BlockResult[]> {
 	const results: BlockResult[] = [];
 	for (const block of extractMermaidBlocks(markdown)) {
-		const { ok, error } = await validateMermaid(block.code);
-		results.push({ ...block, ok, error });
+		results.push({ ...block, ...(await validateMermaid(block.code)) });
 	}
 	return results;
 }

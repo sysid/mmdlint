@@ -58,7 +58,8 @@ export async function main(argv: string[]): Promise<number> {
 				console.log(`ok    ${file}:${result.startLine} #${result.index} [${firstLine}]`);
 			} else {
 				failCount++;
-				const message = (result.error ?? "").split("\n")[0];
+				// Indent every continuation line by the same 6 columns so the parser excerpt and its ^ caret stay aligned.
+				const message = (result.error ?? "").trimEnd().replaceAll("\n", `\n${" ".repeat(6)}`);
 				console.error(`FAIL  ${file}:${result.startLine} #${result.index} [${firstLine}]: ${message}`);
 			}
 		}
